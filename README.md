@@ -1,2 +1,1 @@
-# Data-Centric-Project
-TU850-2 Project to work with sensor data
+DATA 2005 Team Data Processing Project - [IoT Sensor Data]
