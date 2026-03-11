@@ -7,7 +7,7 @@
 
 | Name | Role | GitHub |
 |------|------|--------|
-| [Name 1] | Data Engineer | [@username1] |
+| Lok Ching Tam | Data Engineer | lokChingt |
 | [Name 2] | Data Analyst | [@username2] |
 | Amy Webb | Visualization Lead | AmyWebb16 |
 | Amy Webb | Documentation Lead | AmyWebb16|
