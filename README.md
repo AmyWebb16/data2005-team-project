@@ -18,7 +18,7 @@
 
 ## Dataset
 
-- **Name:**Environmental Sensor Telemetry Data
+- **Name:** Environmental Sensor Telemetry Data
 - **Source:** (https://www.kaggle.com/datasets/garystafford/environmental-sensor-data-132k/data )
 - **Size:** 405k
 - **Format:** CSV
