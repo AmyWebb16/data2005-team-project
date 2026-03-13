@@ -46,8 +46,25 @@ for col in cols:
 # convert ts into datetime
 df['datetime'] = pd.to_datetime(df['ts'], unit='s', utc=True)
 
-# move columne datatime next ts (timestamp)
-col = df.pop('datetime')
-df.insert(1, 'datetime', col)
 
-print(df.head)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# STAGE 3: DATA TRANSFORMATION
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ===== Extract temporal features (day, time, weekday) =====
+df['day'] = df['datetime'].dt.date
+df['time'] = df['datetime'].dt.time
+df['weekday'] = df['datetime'].dt.day_name()
+
+
+# ===== Calculate derived columns =====
+df['total_gas'] = df['co'] + df['lpg'] + df['smoke']
+
+
+# ===== Reorder Dataframe columns =====
+# remove original timestamp ('ts')
+df = df.drop(columns=['ts'])
+
+# move columne datatime to front
+move_cols = ['datetime', 'day', 'time', 'weekday']
+df = df[move_cols + [col for col in df.columns if col not in move_cols]]
