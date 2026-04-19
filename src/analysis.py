@@ -155,3 +155,14 @@ if __name__ == "__main__":
     patterns  = usage_patterns(df)
     corr      = correlation_analysis(df)
     
+    # ---- save outputs for visualisation ----
+    average_readings, avg_temp_weekday, occupancy = patterns
+
+    df.to_csv("data/processed/cleaned_df.csv", index=False)                        
+    comfort.to_csv("data/processed/comfort.csv", index=False)                      
+    anomalies.to_csv("data/processed/anomalies.csv", index=False)                  
+    average_readings.to_csv("data/processed/avg_readings.csv")                            
+    avg_temp_weekday.to_csv("data/processed/avg_temp_weekday.csv")                
+    occupancy.to_csv("data/processed/occupancy.csv")                               
+
+    print("\n all outputs saved")
