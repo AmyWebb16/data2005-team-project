@@ -31,19 +31,18 @@ def validate_cols(df):
 
 
 
-def load_data():
+def load_raw_dataset():
     """
     Load data into DataFrame
     """
 
     try:
-        # ===== Load IoT dataset =====
+        # ===== Load raw IoT dataset =====
         df = pd.read_csv("data/raw/iot_telemetry_data.csv")
 
         # Check if required columns exist
-        if validate_cols(df):
+        if validate_cols(df) == True:
             print("\nData is loaded successfully.")
-
             return df
 
     # ===== Handle file not found error =====
