@@ -1,4 +1,4 @@
-from data_loading import load_data
+from data_loading import load_raw_dataset
 import pandas as pd
 
 
@@ -7,11 +7,12 @@ import pandas as pd
 # ~~~~~~~~~~~~~~~~~~~~~~
 
 # ===== Load data =====
-df = load_data()
+df = load_raw_dataset()
 
 
 # ===== Remove duplicate timestamp and device combinations =====
 duplicated_rows = df.duplicated(subset=["ts", "device"]).sum()
+
 if duplicated_rows != 0:
     df = df.drop_duplicates(subset=['ts', 'device'])
     
@@ -41,8 +42,9 @@ def remove_outliers(col):
     non_outliers = (df[col] >= lower) & (df[col] <= upper)
     return df[non_outliers]
 
-cols = df.select_dtypes(include='number').columns[1:]
-for col in cols:
+# get numeric columns
+numeric_cols = df.select_dtypes(include='number').columns[1:]
+for col in numeric_cols:
     df = remove_outliers(col)
 
 
