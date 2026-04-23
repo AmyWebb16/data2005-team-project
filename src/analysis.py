@@ -1,13 +1,21 @@
 
 import pandas as pd
 import numpy as np
+import os
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # STAGE 3: ANALYSIS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+os.makedirs("reports", exist_ok=True)
+log_file = open("outputs/reports/analysis_output.txt", "w")
+
+def log(msg=""):
+    print(msg)           
+    log_file.write(str(msg) + "\n")
+
 df = pd.read_csv("data/processed/processed_data.csv", parse_dates=["date"])
-print("\ndata loaded")
+log("\ndata loaded")
 
 # Device rename
 DEVICES = sorted(df["device"].unique())
@@ -37,8 +45,8 @@ def descriptive_stats(df):
         }, index=sensor_cols)
         stats_by_device[device] = stats
 
-        print(f"\n---- Descriptive Statistics, Device: {device} ----")
-        print(stats.round(4))
+        log(f"\n---- Descriptive Statistics, Device: {device} ----")
+        log(stats.round(4))
 
     return stats_by_device
 
@@ -55,13 +63,13 @@ def thermal_comfort_index(df):
     df["tci"]     = (T - (0.55 - 0.0055 * RH) * (T - 14.5)).round(2)
     df["comfort"] = np.where(df["tci"] < 21, "Comfortable", "Uncomfortable")
 
-    print("\n---- Thermal Comfort Index ----")
+    log("\n---- Thermal Comfort Index ----")
     comfort_by_device = (
         df.groupby(["device", "comfort"])
           .size()
           .unstack(fill_value=0)
     )
-    print(comfort_by_device)
+    log(comfort_by_device)
     return df[["device", "tci", "comfort"]]
 
 
@@ -71,7 +79,7 @@ def detect_anomalies(df, threshold=3.0):
     sensor_cols = ["co", "humidity", "lpg", "smoke", "temp", "total_gas"]
     all_anomalies = []
 
-    print(f"\n---- Anomaly Detection ----")
+    log(f"\n---- Anomaly Detection ----")
 
     for device, group in df.groupby("device"):
 
@@ -88,7 +96,7 @@ def detect_anomalies(df, threshold=3.0):
         all_anomalies.append(anomaly_df)
         
         rate = len(anomaly_df) / len(group) * 100
-        print(f"  {device}: {len(anomaly_df)} anomalies / {len(group)} readings ({rate:.2f}%)")
+        log(f"  {device}: {len(anomaly_df)} anomalies / {len(group)} readings ({rate:.2f}%)")
 
     return pd.concat(all_anomalies)
 
@@ -101,8 +109,8 @@ def usage_patterns(df):
         df.groupby("device")[["temp", "humidity", "co", "total_gas"]]
           .mean()
     )
-    print("\n---- Average Readings ----")
-    print(by_device.round(4))
+    log("\n---- Average Readings ----")
+    log(by_device.round(4))
 
     weekday_order = ["Monday", "Tuesday", "Wednesday",
                      "Thursday", "Friday", "Saturday", "Sunday"]
@@ -114,8 +122,8 @@ def usage_patterns(df):
           .mean()
           .unstack(level=0)
     )
-    print("\n---- Average Temperature by weekday ----")
-    print(by_weekday_device.round(4))
+    log("\n---- Average Temperature by weekday ----")
+    log(by_weekday_device.round(4))
 
     occupancy = (
         df.groupby("device")["motion"]
@@ -123,8 +131,8 @@ def usage_patterns(df):
           .rename("occupancy_rate")
           .to_frame()
     )
-    print("\n---- Occupancy Rate ----")
-    print(occupancy.round(4))
+    log("\n---- Occupancy Rate ----")
+    log(occupancy.round(4))
 
     return by_device, by_weekday_device, occupancy
 
@@ -141,8 +149,8 @@ def correlation_analysis(df):
         corr_df  = pd.DataFrame(corr_mat, index=sensor_cols, columns=sensor_cols)
         corr_by_device[device] = corr_df
 
-        print(f"\n---- Correlation Matrix, Device: {device} ----")
-        print(corr_df.round(3))
+        log(f"\n---- Correlation Matrix, Device: {device} ----")
+        log(corr_df.round(3))
 
     return corr_by_device
 
@@ -165,4 +173,4 @@ if __name__ == "__main__":
     avg_temp_weekday.to_csv("data/processed/avg_temp_weekday.csv")                
     occupancy.to_csv("data/processed/occupancy.csv")                               
 
-    print("\n all outputs saved")
+    log("\n all outputs saved")
