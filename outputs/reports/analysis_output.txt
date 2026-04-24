@@ -1,0 +1,95 @@
+
+data loaded
+
+---- Descriptive Statistics, Device: Sensor A ----
+              mean   median     std      min      max
+temp       19.3698  19.3000  0.3416  15.6000  20.2000
+humidity   75.4296  75.5000  1.8842  21.4000  82.6000
+co          0.0036   0.0035  0.0009   0.0020   0.0076
+lpg         0.0060   0.0060  0.0011   0.0040   0.0105
+smoke       0.0157   0.0157  0.0031   0.0102   0.0285
+total_gas   0.0252   0.0252  0.0052   0.0161   0.0466
+
+---- Descriptive Statistics, Device: Sensor B ----
+              mean   median     std      min      max
+temp       25.6390  25.7000  1.5997  17.0000  28.8000
+humidity   62.5360  59.8000  9.0065  16.6000  92.0000
+co          0.0042   0.0041  0.0003   0.0034   0.0055
+lpg         0.0068   0.0067  0.0004   0.0058   0.0083
+smoke       0.0179   0.0177  0.0010   0.0152   0.0222
+total_gas   0.0288   0.0284  0.0017   0.0244   0.0361
+
+---- Descriptive Statistics, Device: Sensor C ----
+              mean   median     std      min      max
+temp       22.2819  22.3000  0.4814  21.0000  24.1000
+humidity   50.8093  50.9000  1.8896  45.1000  63.3000
+co          0.0056   0.0054  0.0005   0.0046   0.0076
+lpg         0.0083   0.0082  0.0006   0.0073   0.0105
+smoke       0.0223   0.0219  0.0017   0.0194   0.0285
+total_gas   0.0361   0.0355  0.0028   0.0314   0.0466
+
+---- Thermal Comfort Index ----
+comfort   Comfortable  Uncomfortable
+device                              
+Sensor A        97900              0
+Sensor B         1335          93677
+Sensor C       185168           1555
+
+---- Anomaly Detection ----
+  Sensor A: 1138 anomalies / 97900 readings (1.16%)
+  Sensor B: 1985 anomalies / 95012 readings (2.09%)
+  Sensor C: 2183 anomalies / 186723 readings (1.17%)
+
+---- Average Readings ----
+             temp  humidity      co  total_gas
+device                                        
+Sensor A  19.3698   75.4296  0.0036     0.0252
+Sensor B  25.6390   62.5360  0.0042     0.0288
+Sensor C  22.2819   50.8093  0.0056     0.0361
+
+---- Average Temperature by weekday ----
+device     Sensor A  Sensor B  Sensor C
+weekday                                
+Monday      19.2951   24.8763   22.0009
+Tuesday     19.5610   24.7741   22.5770
+Wednesday   19.3611   25.7942   22.7512
+Thursday    19.2040   25.8221   22.3471
+Friday      19.0981   25.1433   22.2111
+Saturday    19.4856   25.7876   22.3227
+Sunday      19.3729   26.6275   22.0240
+
+---- Occupancy Rate ----
+          occupancy_rate
+device                  
+Sensor A          0.0000
+Sensor B          0.0031
+Sensor C          0.0008
+
+---- Correlation Matrix, Device: Sensor A ----
+            temp  humidity     co    lpg  smoke  total_gas
+temp       1.000     0.349 -0.426 -0.419 -0.420     -0.421
+humidity   0.349     1.000 -0.177 -0.177 -0.177     -0.177
+co        -0.426    -0.177  1.000  0.999  0.999      1.000
+lpg       -0.419    -0.177  0.999  1.000  1.000      1.000
+smoke     -0.420    -0.177  0.999  1.000  1.000      1.000
+total_gas -0.421    -0.177  1.000  1.000  1.000      1.000
+
+---- Correlation Matrix, Device: Sensor B ----
+            temp  humidity     co    lpg  smoke  total_gas
+temp       1.000    -0.385  0.020  0.021  0.021      0.021
+humidity  -0.385     1.000 -0.345 -0.346 -0.345     -0.345
+co         0.020    -0.345  1.000  1.000  1.000      1.000
+lpg        0.021    -0.346  1.000  1.000  1.000      1.000
+smoke      0.021    -0.345  1.000  1.000  1.000      1.000
+total_gas  0.021    -0.345  1.000  1.000  1.000      1.000
+
+---- Correlation Matrix, Device: Sensor C ----
+            temp  humidity    co    lpg  smoke  total_gas
+temp       1.000    -0.373 -0.02 -0.018 -0.019     -0.019
+humidity  -0.373     1.000 -0.09 -0.092 -0.091     -0.091
+co        -0.020    -0.090  1.00  1.000  1.000      1.000
+lpg       -0.018    -0.092  1.00  1.000  1.000      1.000
+smoke     -0.019    -0.091  1.00  1.000  1.000      1.000
+total_gas -0.019    -0.091  1.00  1.000  1.000      1.000
+
+ all outputs saved
