@@ -6,6 +6,8 @@ from matplotlib.ticker import FixedLocator
 
 # read processed_data
 processed_df = pd.read_csv("data/processed/processed_data.csv")
+comfort = pd.read_csv('data/processed/comfort.csv')
+anomalies = pd.read_csv('data/processed/anomalies.csv')
 
 # change device code to name for readability
 device_name = {'b8:27:eb:bf:9d:51': 'Device A',
@@ -13,6 +15,20 @@ device_name = {'b8:27:eb:bf:9d:51': 'Device A',
     '1c:bf:ce:15:ec:4d': 'Device C'
 }
 processed_df['device']= processed_df['device'].map(device_name)
+
+# remap device names for comfort graph
+comfort["device"] = comfort["device"].map({
+    'Sensor A': 'Device A',
+    'Sensor B': 'Device B',
+    'Sensor C': 'Device C'
+})
+
+# remap device names for anomalies graph
+anomalies["device"] = anomalies["device"].map({
+    'Sensor A': 'Device A',
+    'Sensor B': 'Device B',
+    'Sensor C': 'Device C'
+})
 
 # colour dictionary to keep colour of each device consistent
 device_palette = {
@@ -91,7 +107,7 @@ axes[1,1].set_xticklabels(weekday_order, rotation=0)
 axes[1,1].legend(title="Device", loc="upper right", framealpha=0.5)
 
 plt.tight_layout()
-plt.savefig('outputs/figures/dashboard_version1.2.png', dpi=150, bbox_inches='tight')
+plt.savefig('outputs/figures/dashboard_v1.2.png', dpi=150, bbox_inches='tight')
 plt.show()
 
 # GRAPH 5: stacked bar chart of comfort level dy device
@@ -112,5 +128,39 @@ ax5.legend(title="Comfort Level", loc="upper right")
 ax5.tick_params(axis='x', rotation=0)
 
 fig5.tight_layout()
-fig5.savefig('outputs/figures/comfort_distribution.png', dpi=150, bbox_inches='tight')
+fig5.savefig('outputs/figures/comfort_distribution_v1.1.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# GRAPH 6:  heatmap of anomalies by device and hour of day
+fig6, ax6 = plt.subplots(figsize=(16, 5))
+
+anomalies['hour'] = pd.to_datetime(anomalies['time'],format='mixed').dt.hour
+anomaly_counts = anomalies.groupby(['device', 'hour']).size().unstack(fill_value=0)
+anomaly_counts = anomaly_counts.reindex(columns=range(24), fill_value=0)
+
+ax = sns.heatmap(
+    anomaly_counts,
+    cmap='Reds',
+    annot=True,
+    fmt='d',
+    linewidths=0.4,
+    linecolor='white',
+    cbar_kws={'label': 'Anomaly count', 'shrink': 0.8, 'pad': 0.02},
+    annot_kws={'size': 8},
+    ax=ax6
+)
+
+ax6.set_title("Anomalies by device and hour of day", fontsize=13, fontweight='medium', pad=12)
+ax6.set_xlabel("Hour of day", fontsize=11, labelpad=8)
+ax6.set_ylabel("Device", fontsize=11, labelpad=8)
+
+#Every 3 hours for layout to look nicer
+hour_labels = [str(h) if h % 3 == 0 else '' for h in range(24)]
+ax6.xaxis.set_major_locator(FixedLocator(range(24))) 
+ax6.set_xticklabels(hour_labels, rotation=0, fontsize=9)
+ax6.set_yticklabels(ax6.get_yticklabels(), rotation=0, fontsize=9)
+ax6.tick_params(axis='both', length=0)
+
+fig6.tight_layout(pad=1.5)
+fig6.savefig('outputs/figures/heatmapgraph_v1.1.png', dpi=150, bbox_inches='tight')
 plt.show()
