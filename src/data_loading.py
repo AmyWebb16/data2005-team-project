@@ -42,10 +42,13 @@ def load_raw_dataset():
 
         # Check if required columns exist
         if validate_cols(df) == True:
-            print("\nData is loaded successfully.")
+            print("\nData is loaded successfully.\n")
             return df
 
     # ===== Handle file not found error =====
     except FileNotFoundError:
         raise FileNotFoundError ("File not found. Check if the file path is correct.")
     
+if __name__ == "__main__":
+    df = load_raw_dataset()
+    df.info()
