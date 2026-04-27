@@ -32,6 +32,10 @@ else:
 
 # ===== Remove outliers =====
 def remove_outliers(col):
+    """
+    Remove outliers values
+    """
+
     q1 = df[col].quantile(0.25)
     q3 = df[col].quantile(0.75)
     iqr = q3-q1
