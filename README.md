@@ -10,11 +10,13 @@
 | Lok Ching Tam | Data Engineer | lokChingt |
 | Karla Satrapova | Data Analyst | ksatrapova |
 | Amy Webb | Visualization Lead | AmyWebb16 |
-| Amy Webb | Documentation Lead | AmyWebb16|
+| Everyone| Documentation Lead | AmyWebb16, lokChingt, ksatrapova|
 
 ## Project Description
-
-[Brief description of your project and chosen domain]
+The goal of our project is to go through the data pipeline of data processing, analysis, and visualization to see if there are any meaningful patterns and show them through
+visualizations. The dataset we have chosen is and IoT sensor dataset of three distinct sensors in diverse environments with spanning over a seven days period. It has variables of  timestamp,
+device name, carbon monoxide, humidity, light detected?, liquid petroleum gas, motion detected?, smoke and temperature. We focused on a subset of those variables for our
+assignment.​
 
 ## Dataset
 
