@@ -40,12 +40,22 @@ device_palette = {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # STAGE 4 : DATA VISUALIZATION
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""Create six graphs from processed data csv:
+    dashborad with 4 graphs (temp distribution, motion counts, CO vs smoke, temp by weekday)
+    comformt distribution (stacked bar chart by device comfort levels)
+    heatmap of anomalies (anomaly count by device and time of day)
+"""
+
 # Dashborad using processd data csv for 4 graphs
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 fig.suptitle("Processed Data Graph Overview", fontsize=14)
 
 
 # GRAPH 1: histogram of temperature with KDE
+""" Histogram with KDE showing temperature distribution for each device.
+    Shows each device's readings obey normal distribution and highlights ranges.
+ """
+
 sns.histplot(data=processed_df,
             x='temp',
             hue='device',
@@ -59,6 +69,9 @@ axes[0,0].set_xlabel("Temperature (°C)")
 
 
 # GRAPH 2: number of motions per device
+""" Bar chart of sum of motion detection per device.
+    Only true rows are shown, so shows when device is triggered.
+"""
 sns.countplot(data=processed_df[processed_df['motion'] == True],
               x='device',
               hue='device',
@@ -73,6 +86,9 @@ axes[0,1].tick_params(axis="x",labelsize=8, rotation=0)
 
 
 # GRAPH 3: scatter of CO2 vs Smoke (coloured per device)
+""" Scater plot of CO vs Smoke coloured by device.
+    Shows correlation between the two gases and how it differs by device.
+"""
 sns.scatterplot(data=processed_df,
                 x='co',
                 y='smoke',
@@ -85,6 +101,9 @@ axes[1,0].set_title("CO vs Smoke by Device")
 
 
 # GRAPH 4: line graph of temperature over weekday
+""" Line graph of mean temp per weekday with 95% confidence intervals.
+    x-axis ordered by Monday-Sunday.
+"""
 weekday_order = ["Monday","Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 # cast so order is maintained
 processed_df['weekday'] = pd.Categorical(processed_df['weekday'], categories=weekday_order, ordered=True)
@@ -111,6 +130,9 @@ plt.savefig('outputs/figures/dashboard_v1.2.png', dpi=150, bbox_inches='tight')
 plt.show()
 
 # GRAPH 5: stacked bar chart of comfort level dy device
+""" Stacked bar chaty showing comfortable vs uncomfortable records 
+    per device using std thersholds in analyse phase.
+"""
 fig5, ax5 = plt.subplots(figsize=(7, 5))
 comfort_counts = comfort.groupby(['device', 'comfort']).size().unstack(fill_value=0)
 
@@ -132,6 +154,10 @@ fig5.savefig('outputs/figures/comfort_distribution_v1.1.png', dpi=150, bbox_inch
 plt.show()
 
 # GRAPH 6:  heatmap of anomalies by device and hour of day
+""" Heatmap showing anomaly counts and what hour of the dat the occur. 
+    Tick labels shown every 3 hours to reduce overcroeding.
+"""
+
 fig6, ax6 = plt.subplots(figsize=(16, 5))
 
 anomalies['hour'] = pd.to_datetime(anomalies['time'],format='mixed').dt.hour
