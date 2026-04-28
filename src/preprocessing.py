@@ -51,6 +51,8 @@ numeric_cols = df.select_dtypes(include='number').columns[1:]
 for col in numeric_cols:
     df = remove_outliers(col)
 
+print("\nOutliers are removed")
+
 
 # ===== Convert data types =====
 # convert ts into datetime
